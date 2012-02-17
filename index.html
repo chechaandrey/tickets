@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <!-- TICKETS -->
+        <script type="text/javascript" src="preloader.js"></script>
+        <script type="text/javascript" src="paths.js"></script>
+        <script type="text/javascript">
+            this.Tickets = {
+                TEMPLATE: {},
+                L10N: {},
+                Settings: {
+                    url: 'http://10.0.0.120:8001/ticketapi/',
+                    lang: 'ua',
+                    method: 'POST',
+                    debug: true,
+                    cache: false,
+                    sync: true,
+                    rootURL: null// for preload
+                }
+            };
+            
+            PreLoader.add(this.PATHS);// file with path to js
+            PreLoader.set('cache', this.Tickets.Settings.cache);
+            PreLoader.set('sync', this.Tickets.Settings.sync);
+            PreLoader.set('rootURL', this.Tickets.Settings.rootURL);
+            
+            var I = 0;
+            
+            PreLoader.on('successed', function(e) {
+                // write tpl & l10n to window.Invoices
+	            if(e.build == "tmp") window.Tickets.TEMPLATE[e.name] = e.data;
+	            if(e.build == "l10n") window.Tickets.L10N[e.name] = e.data;
+	            // write tpl & l10n to window.Invoices
+	            // draw indicator
+	            if(window.console && window.Tickets.Settings.debug) console.log('status: %o, type: %o, url: %o, name: %o', e.status, e.type, e.url, e.name);
+                var el = document.getElementById('ticketsPreLoader');
+	            if(el) {
+	                I++;
+	                el.innerHTML = '<h2 style="color: red;">'+(I/e.length*100).toFixed(2)+'%</h2>';
+	            }
+	            // draw indicator
+            });
+            
+            PreLoader.load({
+                ready: true,
+                success: function(data) {
+                    
+                    var el = document.getElementById('ticketsPreLoader');
+	                if(el) el.style.display = 'none';
+                    
+                    window.Tickets.router = new window.Tickets.Router({l10nLang: 'ua', self: window.Tickets});
+                    
+                    Backbone.history.start();
+		            
+	            },
+	            error: function() {
+                    alert('ErrorEnd PreLoader');
+                }
+            });
+        </script>
+        <link rel="stylesheet" href="style.css" type="text/css" media="all">
+        <!-- TICKETS -->
+    </head>
+    <body>
+        <!-- TICKETS -->
+        <div id="main">
+            <div id="ticketsSearch"></div>
+            <div id="ticketsPreLoader"></div>
+        </div>
+        <!-- TICKETS -->
+    </body>
+</html>

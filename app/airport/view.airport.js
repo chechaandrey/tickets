@@ -25,5 +25,10 @@ this.Tickets.ViewAirport = Backbone.View.extend({
                 loader: opts.loader
             });
         }
+    },
+    renderGet: function(code, codeCity) {
+        return this.collection.get(code)
+            .get('citys')
+            .get('code', codeCity);
     }
 });

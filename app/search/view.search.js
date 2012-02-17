@@ -4,7 +4,7 @@ this.Tickets.ViewSearch = Backbone.View.extend({
         this.router = opt.router;
         this.self = opt.self;
         
-        this.model = new this.self.ModelSearch();
+        this.mset('m', this.self.ModelSearch);
         
     },
     eventAdd: function(model) {
@@ -84,14 +84,15 @@ this.Tickets.ViewSearch = Backbone.View.extend({
         'ru': JSON.parse(this.Tickets.L10N['search.ru']),
         'ua': JSON.parse(this.Tickets.L10N['search.ua'])
     },
-    renderEdit: function() {
+    render: function() {
         var self = this;
-        this.router.collection.get('country').get('view').render({
+        this.router.get('country').render({
             success: function(collection, response) {
-                self.eventAdd.call(self, self.model);
-                collection.each(function(model) {
-                    self.eventAddCountryFrom.call(self, model, self.model.get('countryFrom'));
-                    self.eventAddCountryTo.call(self, model, self.model.get('countryTo'));
+                var model = self.mget('m');
+                self.eventAdd.call(self, model);
+                collection.each(function(model1) {
+                    self.eventAddCountryFrom.call(self, model1, model.get('countryFrom'));
+                    self.eventAddCountryTo.call(self, model1, model.get('countryTo'));
                 });
             },
             error: function(collection, error) {
@@ -107,7 +108,18 @@ this.Tickets.ViewSearch = Backbone.View.extend({
         });
     },
     renderView: function() {
-        
+        var model = this.mget('m'), search = model.get('search');
+        if(!search) {
+            this.router.navigate("search/", {trigger: true, replace: true});
+        } else {
+            model.set({search: false});
+            return [this.mget('m'), {
+                'countryFrom': this.router.get('country').renderGet(model.get('countryFrom')), 
+                'countryTo': this.router.get('country').renderGet(model.get('countryTo')),
+                'airportFrom': this.router.get('airport').renderGet(model.get('countryFrom'), model.get('depairp')),
+                'airportTo': this.router.get('airport').renderGet(model.get('countryTo'), model.get('arrairp')),
+            }];
+        }
     },
     events: {
         'change [name="country-from"]': 'eventDOMChangeCountry',
@@ -132,7 +144,7 @@ this.Tickets.ViewSearch = Backbone.View.extend({
             data = {countryTo: value};
         }
         
-        var res = this.model.set(data, {error: function(model, error) {
+        var res = this.mget('m').set(data, {error: function(model, error) {
             if(name == 'country-from') {
                 $(e.target).val(model.get('countryFrom'));
             } else if(name == 'country-to') {
@@ -142,17 +154,17 @@ this.Tickets.ViewSearch = Backbone.View.extend({
         
         if(!res) return;
         
-        this.router.collection.get('airport').get('view').render(value, {
+        this.router.get('airport').render(value, {
             success: function(collection, response) {
                 if(sel == 'from') {
                     self.eventClearCitysFrom.call(self);
                     collection.each(function(model) {
-                        self.eventAddCitysFrom.call(self, model, self.model.get('depairp'));
+                        self.eventAddCitysFrom.call(self, model, self.mget('m').get('depairp'));
                     });
                 } else if(sel == 'to') {
                     self.eventClearCitysTo.call(self);
                     collection.each(function(model) {
-                        self.eventAddCitysTo.call(self, model, self.model.get('arrairp'));
+                        self.eventAddCitysTo.call(self, model, self.mget('m').get('arrairp'));
                     });
                 }
             },
@@ -172,7 +184,7 @@ this.Tickets.ViewSearch = Backbone.View.extend({
         var name = $(e.target).attr('name'), value = $(e.target).val(), data = {};
         data[name] = value;
         
-        this.model.set(data, {error: function(model, error) {
+        this.mget('m').set(data, {error: function(model, error) {
             $(e.target).val(model.get(name));
             console.error(model, error)
         }});
@@ -181,24 +193,24 @@ this.Tickets.ViewSearch = Backbone.View.extend({
         var name = $(e.target).attr('name'), value = $(e.target).val(), data = {};
         data[name] = value;
         
-        this.model.set(data, {error: function(model, error) {
+        this.mget('m').set(data, {error: function(model, error) {
             $(e.target).val(model.get(name));
         }});
     },
     eventDOMBack: function(e) {
         if($(e.target).is(':checked')) {
-            this.model.set({type: 'RT'});
+            this.mget('m').set({type: 'RT'});
             $('[data-id="back"]', this.el).show();
         } else {
             $('[data-id="back"]', this.el).hide();
-            this.model.set({type: 'OW'});
+            this.mget('m').set({type: 'OW'});
         }
     },
     eventDOMDirect: function(e) {
         if($(e.target).is(':checked')) {
-            this.model.set({direct: 1});
+            this.mget('m').set({direct: 1});
         } else {
-            this.model.set({direct: 0});
+            this.mget('m').set({direct: 0});
         }
     },
     eventDOMClear: function(e) {
@@ -210,14 +222,12 @@ this.Tickets.ViewSearch = Backbone.View.extend({
             data[$(this).attr('name')] = $(this).val();
         });
         
-        var res = this.model.set(data, {error: function(model, error) {
+        var res = this.mget('m').set(data, {error: function(model, error) {
             console.error(model, error);
         }});
         
-        console.warn(data, this.model.toJSON());
-        
         if(res) {
-            //this.router.navigate();
+            this.router.navigate("result/", {trigger: true, replace: true});
         }
         
     }

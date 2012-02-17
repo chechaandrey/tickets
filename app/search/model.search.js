@@ -10,7 +10,6 @@ this.Tickets.ModelSearch = Backbone.Model.extend({
         passins: 0,
         depdate: null,
         arrdate: null,
-        depdate: null,
         classflight: 'All',
         type: 'RT',
         direct: 1,

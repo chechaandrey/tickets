@@ -24,5 +24,8 @@ this.Tickets.ViewCountry = Backbone.View.extend({
                 loader: opts.loader
             });
         }
+    },
+    renderGet: function(code) {
+        return this.collection.get('code', code);
     }
 });

@@ -1,4 +1,4 @@
-Backbone.sync = function(method, model, options) {
+Backbone.sync.add('tickets', function(method, model, options) {
     options = options || {};
     var data = {};
     
@@ -41,4 +41,4 @@ Backbone.sync = function(method, model, options) {
         }
     });
     
-}
+});

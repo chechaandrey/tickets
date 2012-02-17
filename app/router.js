@@ -6,67 +6,41 @@ this.Tickets.Router = Backbone.Router.extend({
         this.l10nLang = opt.l10nLang || 'en';
         
         this.route(/^(search\/).*$/i, 'search', this.search);
-        this.route(/^(result\/([a-z0-9]+)\/).*$/i, 'result', this.result);
+        this.route(/^(result\/).*$/i, 'result', this.result);
         this.route(/^(order\/([a-z0-9]+)\/).*$/i, 'order', this.order);
         
-        // collection routers
-        this.collection = new this.self.CollectionRouters();
     },
     routes: {
 	    "": "search"// default page
     },
     search: function(query) {
-        this.helperHide();
+        this.hide();
         this.helperCreateAirport();
         this.helperRenderSearch(true);
-        this.helperShow('search');
+        this.show('search');
     },
-    result: function(query, id) {
-        console.log('RESULT');
+    result: function(query) {
+        this.hide();
+        this.helperRenderSearch(false);
+        this.helperRenderResult();
+        this.show('result');
     },
     order: function(query, id) {
         
     },
     helperRenderSearch: function(edit) {
-        if(!this.collection.get('search')) {
-            var el = $('#ticketsSearch');
-            this.collection.add({
-                id: 'search',
-                el: el,
-                view: new this.self.ViewSearch({router: this, el: el, self: this.self})
-            });
-        }
+        if(!this.get('search')) this.add('search', this.self.ViewSearch, {el: $('#ticketsSearch'), self: this.self});
         if(edit) {
-            this.collection.get('search').get('view').renderEdit();
-        } else {
-            this.collection.get('search').get('view').renderView();
+            this.get('search').render();
         }
+    },
+    helperRenderResult: function() {
+        if(!this.get('result')) this.add('result', this.self.ViewResult, {el: $('#ticketsResult'), self: this.self});
+        this.get('result').render();
     },
     helperCreateAirport: function() {
-        if(!this.collection.get('country')) {
-            this.collection.add({
-                id: 'country',
-                view: new this.self.ViewCountry({router: this, self: this.self})
-            });
-        }
-        if(!this.collection.get('airport')) {
-            this.collection.add({
-                id: 'airport',
-                view: new this.self.ViewAirport({router: this, self: this.self})
-            });
-        }
-    },
-    helperHide: function(indexs) {
-        indexs = (indexs instanceof Array)?indexs:[indexs];
-        this.collection.each(function(model) {
-            if(!_.include(indexs, model.get('id'))) $(model.get('el')).hide();
-        });
-    },
-    helperShow: function(indexs) {
-        indexs = (indexs instanceof Array)?indexs:[indexs];
-        this.collection.each(function(model) {
-            if(_.include(indexs, model.get('id'))) $(model.get('el')).show();
-        });
+        if(!this.get('country')) this.add('country', this.self.ViewCountry, {self: this.self});
+        if(!this.get('airport')) this.add('airport', this.self.ViewAirport, {self: this.self});
     }
     
     

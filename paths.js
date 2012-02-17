@@ -7,6 +7,9 @@ this.PATHS = [
     {"type": "js", "url": "lib/backbone.0.9.1.js", "buildTo": "build/backbone.0.9.1.js"},
     {"type": "js", "url": "lib/backbone.l10n.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
     {"type": "js", "url": "lib/backbone.collection.search.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
+    {"type": "js", "url": "lib/backbone.sync.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
+    {"type": "js", "url": "lib/backbone.router.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
+    {"type": "js", "url": "lib/backbone.view.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
     
     // -search-
     {"type": "ajax", "url": "app/search/template.search.tpl", "name": "search.search", "buildTo": "build/tmp.js", "build": "tmp"},
@@ -19,6 +22,12 @@ this.PATHS = [
     {"type": "js", "url": "app/search/model.search.js", "buildTo": "build/app.js", "build": "jsc"},
     {"type": "js", "url": "app/search/view.search.js", "buildTo": "build/app.js", "build": "jsc"},
     
+    // -result-
+    //{"type": "js", "url": "app/result/model.result.js", "buildTo": "build/app.js", "build": "jsc"},
+    //{"type": "js", "url": "app/result/collection.result.js", "buildTo": "build/app.js", "build": "jsc"},
+    {"type": "ajax", "url": "app/result/template.result.tpl", "name": "result.result", "buildTo": "build/tmp.js", "build": "tmp"},
+    {"type": "js", "url": "app/result/view.result.js", "buildTo": "build/app.js", "build": "jsc"},
+    
     // -airport-
     {"type": "js", "url": "app/airport/model.country.js", "buildTo": "build/app.js", "build": "jsc"},
     {"type": "js", "url": "app/airport/collection.country.js", "buildTo": "build/app.js", "build": "jsc"},
@@ -30,8 +39,6 @@ this.PATHS = [
     {"type": "js", "url": "app/airport/collection.airports.js", "buildTo": "build/app.js", "build": "jsc"},
     {"type": "js", "url": "app/airport/view.airport.js", "buildTo": "build/app.js", "build": "jsc"},
     
-    {"type": "js", "url": "app/model.router.js", "buildTo": "build/app.js", "build": "jsc"},
-    {"type": "js", "url": "app/collection.routers.js", "buildTo": "build/app.js", "build": "jsc"},
     {"type": "js", "url": "app/router.js", "buildTo": "build/app.js", "build": "jsc"},
     {"type": "js", "url": "app/sync.js", "buildTo": "build/app.js", "build": "jsc"}
 ];

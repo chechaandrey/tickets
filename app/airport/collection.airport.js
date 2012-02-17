@@ -3,6 +3,7 @@ this.Tickets.CollectionAirport = Backbone.Collection.extend({
     initialize: function() {
         
     },
+    syncID: 'tickets',
     prepare: function(method) {
         if(method == 'read') return {oper: "cityes"};
     },

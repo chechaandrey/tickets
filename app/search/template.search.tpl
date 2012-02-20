@@ -6,7 +6,7 @@
         <tr><td>
             <table data-id="from">
                 <tbody>
-                    <tr><td><%= this.l10n("country") %></td><td><select name="country-from">
+                    <tr><td><%= this.l10n("country") %></td><td><select name="countryFrom">
                         <option value=""<%= countryFrom?'':' selected="selected"' %>><%= this.l10n("Please select a country") %></option>
                     </select></td></tr>
                     <tr data-id="city"><td><%= this.l10n("city(airport)") %></td><td data-id="airport"><select name="depairp">
@@ -17,7 +17,7 @@
         </td><td>
             <table data-id="to">
                 <tbody>
-                    <tr><td><%= this.l10n("country") %></td><td><select name="country-to">
+                    <tr><td><%= this.l10n("country") %></td><td><select name="countryTo">
                         <option value=""<%= countryTo?'':' selected="selected"' %>><%= this.l10n("Please select a country") %></option>
                     </select></td></tr>
                     <tr data-id="city"><td><%= this.l10n("city(airport)") %></td><td data-id="airport"><select name="arrairp">
@@ -26,7 +26,7 @@
                 </tbody>
             </table>
         </td></tr>
-        <tr><td><strong><%= this.l10n("there") %></strong></td><td><strong><input type="checkbox" name="type" id="ticketsSearchLabel"<%= type=='RT'?' checked="checked"':'' %> /><label for="ticketsSearchLabel"><%= this.l10n("back") %></label></strong></td></tr>
+        <tr><td><strong><%= this.l10n("there") %></strong></td><td><strong><input type="checkbox" value="<%= type %>" name="type" id="ticketsSearchLabel"<%= type=='RT'?' checked="checked"':'' %> /><label for="ticketsSearchLabel"><%= this.l10n("back") %></label></strong></td></tr>
         <tr><td><input type="text" data-name="altdepdate" value="" /><input type="text" name="depdate" value="" /></td><td><span data-id="back"><input type="text" data-name="altarrdate" value="" /><input type="text" name="arrdate" value="" /></span></td></tr>
         <tr><th colspan="2"><%= this.l10n("additionally") %></th></tr>
         <tr><td colspan="2">
@@ -67,7 +67,7 @@
                 <option value="Business"<%= classflight=='Business'?' selected="selected"':'' %>><%= this.l10n("Business") %></option>
                 <option value="First"<%= classflight=='First'?' selected="selected"':'' %>><%= this.l10n("First") %></option>
             </select></span>
-            <span><input type="checkbox" id="ticketsSearchLabel1" name="direct"<%= direct==1?' checked="checked"':'' %> /><label for="ticketsSearchLabel1"><%= this.l10n("Only direct flights") %></label></span>
+            <span><input type="checkbox" value="<%= direct %>" id="ticketsSearchLabel1" name="direct"<%= direct==1?' checked="checked"':'' %> /><label for="ticketsSearchLabel1"><%= this.l10n("Only direct flights") %></label></span>
         </td></tr>
     </tbody>
     <thead>

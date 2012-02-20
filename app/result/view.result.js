@@ -7,14 +7,8 @@ this.Tickets.ViewResult = Backbone.View.extend({
         this.cset('c', this.self.CollectionResult);
         
     },
-    eventAdd: function(data) {
-        var jdata = {};
-        jdata = data[0].toJSON();
-        for(var i in data[1]) {
-            jdata[i] = data[1][i].toJSON();
-        }
-        console.warn(jdata);
-        $(this.el).html(this.statsTemplate['result'].call(this, jdata));
+    eventAdd: function(model) {
+        $(this.el).html(this.statsTemplate['result'].call(this, model.toJSON()));
     },
     statsTemplate: {
         'result': _.template(this.Tickets.TEMPLATE['result.result'])

@@ -36,12 +36,12 @@ this.Tickets.ViewSearch = Backbone.View.extend({
     eventAddCountryFrom: function(model, country) {
         var jdata = model.toJSON();
         jdata['country'] = country;
-        $('[data-id="from"] [name="country-from"]', this.el).append(this.statsTemplate['country'].call(this, jdata));
+        $('[data-id="from"] [name="countryFrom"]', this.el).append(this.statsTemplate['country'].call(this, jdata));
     },
     eventAddCountryTo: function(model, country) {
         var jdata = model.toJSON();
         jdata['country'] = country;
-        $('[data-id="to"] [name="country-to"]', this.el).append(this.statsTemplate['country'].call(this, jdata));
+        $('[data-id="to"] [name="countryTo"]', this.el).append(this.statsTemplate['country'].call(this, jdata));
     },
     eventAddCitysTo: function(model, city) {
         var jdata = model.toJSON();
@@ -112,18 +112,21 @@ this.Tickets.ViewSearch = Backbone.View.extend({
         if(!search) {
             this.router.navigate("search/", {trigger: true, replace: true});
         } else {
-            model.set({search: false});
-            return [this.mget('m'), {
-                'countryFrom': this.router.get('country').renderGet(model.get('countryFrom')), 
-                'countryTo': this.router.get('country').renderGet(model.get('countryTo')),
-                'airportFrom': this.router.get('airport').renderGet(model.get('countryFrom'), model.get('depairp')),
-                'airportTo': this.router.get('airport').renderGet(model.get('countryTo'), model.get('arrairp')),
-            }];
+            //model.set({search: false});
+            var m = new this.self.ModelSearch();
+            m.set(model.toJSON());
+            m.set({
+                _countryFrom: this.router.get('country').renderGet(model.get('countryFrom')),
+                _countryTo: this.router.get('country').renderGet(model.get('countryTo')),
+                _airportFrom: this.router.get('airport').renderGet(model.get('countryFrom'), model.get('depairp')),
+                _airportTo: this.router.get('airport').renderGet(model.get('countryTo'), model.get('arrairp'))
+            });
+            return m;
         }
     },
     events: {
-        'change [name="country-from"]': 'eventDOMChangeCountry',
-        'change [name="country-to"]': 'eventDOMChangeCountry',
+        'change [name="countryFrom"]': 'eventDOMChangeCountry',
+        'change [name="countryTo"]': 'eventDOMChangeCountry',
         'change [name="depairp"]': 'eventDOMChangeCity',// from
         'change [name="arrairp"]': 'eventDOMChangeCity',// to
         'change [name="passadt"], [name="passcnn"], [name="passinf"], [name="passins"]': 'eventDOMChangeOther',
@@ -134,20 +137,20 @@ this.Tickets.ViewSearch = Backbone.View.extend({
     },
     eventDOMChangeCountry: function(e) {
         var self = this, name = $(e.target).attr('name'), value = $(e.target).val(), $sel, $cloader, data;
-        if(name == 'country-from') {
+        if(name == 'countryFrom') {
             sel = 'from';
             $cloader = $('[data-id="from"] [data-id="airport"]', this.el);
             data = {countryFrom: value};
-        } else if(name == 'country-to') {
+        } else if(name == 'countryTo') {
             sel = 'to';
             $cloader = $('[data-id="to"] [data-id="airport"]', this.el);
             data = {countryTo: value};
         }
         
         var res = this.mget('m').set(data, {error: function(model, error) {
-            if(name == 'country-from') {
+            if(name == 'countryFrom') {
                 $(e.target).val(model.get('countryFrom'));
-            } else if(name == 'country-to') {
+            } else if(name == 'countryTo') {
                 $(e.target).val(model.get('countryTo'));
             }
         }});
@@ -200,17 +203,21 @@ this.Tickets.ViewSearch = Backbone.View.extend({
     eventDOMBack: function(e) {
         if($(e.target).is(':checked')) {
             this.mget('m').set({type: 'RT'});
+            $(e.target).val('RT');
             $('[data-id="back"]', this.el).show();
         } else {
             $('[data-id="back"]', this.el).hide();
+            $(e.target).val('OW');
             this.mget('m').set({type: 'OW'});
         }
     },
     eventDOMDirect: function(e) {
         if($(e.target).is(':checked')) {
             this.mget('m').set({direct: 1});
+            $(e.target).val('1');
         } else {
             this.mget('m').set({direct: 0});
+            $(e.target).val('0');
         }
     },
     eventDOMClear: function(e) {

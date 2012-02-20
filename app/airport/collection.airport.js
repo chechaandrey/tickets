@@ -15,7 +15,10 @@ this.Tickets.CollectionAirport = Backbone.Collection.extend({
         return data;
     },
     parseError: function(doc, xhr, method) {
-        var data = {code: $('Error', doc).attr('Code')};
+        var data = [];
+        $('Error', doc).each(function() {
+            data.push({code: $('Error', doc).attr('Code')});
+        });
         return data;
     }
 });

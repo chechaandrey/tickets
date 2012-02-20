@@ -62,10 +62,10 @@
                 <option value="5"<%= passins==5?' selected="selected"':'' %>>5</option>
             </select></span>
             <span><span><%= this.l10n("Class") %></span><select name="classflight">
-                <option value="All"<%= classflight=='All'?' selected="selected"':'' %>><%= this.l10n("All") %></option>
-                <option value="Economy"<%= classflight=='Economy'?' selected="selected"':'' %>><%= this.l10n("Economy") %></option>
-                <option value="Business"<%= classflight=='Business'?' selected="selected"':'' %>><%= this.l10n("Business") %></option>
-                <option value="First"<%= classflight=='First'?' selected="selected"':'' %>><%= this.l10n("First") %></option>
+                <option value="all"<%= classflight=='all'?' selected="selected"':'' %>><%= this.l10n("All") %></option>
+                <option value="economy"<%= classflight=='economy'?' selected="selected"':'' %>><%= this.l10n("Economy") %></option>
+                <option value="business"<%= classflight=='business'?' selected="selected"':'' %>><%= this.l10n("Business") %></option>
+                <option value="first"<%= classflight=='first'?' selected="selected"':'' %>><%= this.l10n("First") %></option>
             </select></span>
             <span><input type="checkbox" value="<%= direct %>" id="ticketsSearchLabel1" name="direct"<%= direct==1?' checked="checked"':'' %> /><label for="ticketsSearchLabel1"><%= this.l10n("Only direct flights") %></label></span>
         </td></tr>

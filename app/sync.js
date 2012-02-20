@@ -23,10 +23,10 @@ Backbone.sync.add('tickets', function(method, model, options) {
             
             var data1 = {};
             
-            if(data.getElementsByTagName("Error").length) {
+            if(data.getElementsByTagName("Error").length > 0) {
                 if(typeof model.parseError == 'function') data1 = model.parseError.call(this, data, jqXHR, method);
                 if(typeof options.error == 'function') options.error.call(this, data1);
-            } else if(data.getElementsByTagName("Response").length) {
+            } else if(data.getElementsByTagName("Response").length > 0) {
                 if(typeof model.parseSuccess == 'function') data1 = model.parseSuccess.call(this, data, jqXHR, method);
                 if(typeof options.success == 'function') options.success.call(this, data1);
             }

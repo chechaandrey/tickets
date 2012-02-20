@@ -10,6 +10,8 @@ this.PATHS = [
     {"type": "js", "url": "lib/backbone.sync.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
     {"type": "js", "url": "lib/backbone.router.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
     {"type": "js", "url": "lib/backbone.view.js", "buildTo": "build/backbone.plugins.js", "build": "jsc"},
+    {"type": "js", "url": "lib/idate.js", "buildTo": "build/helper.js", "build": "jsc"},
+    {"type": "js", "url": "lib/imoney.js", "buildTo": "build/helper.js", "build": "jsc"},
     
     // -search-
     {"type": "ajax", "url": "app/search/template.search.tpl", "name": "search.search", "buildTo": "build/tmp.js", "build": "tmp"},
@@ -23,9 +25,13 @@ this.PATHS = [
     {"type": "js", "url": "app/search/view.search.js", "buildTo": "build/app.js", "build": "jsc"},
     
     // -result-
-    //{"type": "js", "url": "app/result/model.result.js", "buildTo": "build/app.js", "build": "jsc"},
-    //{"type": "js", "url": "app/result/collection.result.js", "buildTo": "build/app.js", "build": "jsc"},
+    {"type": "js", "url": "app/result/model.result.js", "buildTo": "build/app.js", "build": "jsc"},
+    {"type": "js", "url": "app/result/collection.result.js", "buildTo": "build/app.js", "build": "jsc"},
+    {"type": "js", "url": "app/result/model.resultSegment.js", "buildTo": "build/app.js", "build": "jsc"},
+    {"type": "js", "url": "app/result/collection.resultSegment.js", "buildTo": "build/app.js", "build": "jsc"},
     {"type": "ajax", "url": "app/result/template.result.tpl", "name": "result.result", "buildTo": "build/tmp.js", "build": "tmp"},
+    {"type": "ajax", "url": "app/result/template.resultItem.tpl", "name": "result.item", "buildTo": "build/tmp.js", "build": "tmp"},
+    {"type": "ajax", "url": "app/result/template.resultLoader.tpl", "name": "result.loader", "buildTo": "build/tmp.js", "build": "tmp"},
     {"type": "js", "url": "app/result/view.result.js", "buildTo": "build/app.js", "build": "jsc"},
     
     // -airport-

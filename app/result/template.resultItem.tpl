@@ -7,8 +7,9 @@
         <table>
             <tbody>
             <% Segments.each(function(seg) {
-                var DepDateTime = new iDate(seg.get('DepDateTime'), 'Y-m-d\\TH:i:s');
-                var ArrDateTime = new iDate(seg.get('ArrDateTime'), 'Y-m-d\\TH:i:s');
+                var DepDateTime = new iDate(seg.get('DepDateTime'), 'Y-m-d\\TH:i:s'),
+                    ArrDateTime = new iDate(seg.get('ArrDateTime'), 'Y-m-d\\TH:i:s'),
+                    FlightTime = iDate.diffExp(seg.get('FlightTime'), 'minute');
                 %>
                 <tr>
                     <td><%= seg.get('DepAirp') %>(<%= seg.get('DepAirpCode') %>)</td>
@@ -16,9 +17,9 @@
                     <td>-></td>
                     <td><%= seg.get('ArrAirp') %>(<%= seg.get('ArrAirpCode') %>)</td>
                     <td><%= ArrDateTime.toString('H:i') %></td>
-                    <td><%= seg.get('FlightTime') %></td>
+                    <td><%= FlightTime['hour']+' '+this.l10n('h')+' '+FlightTime['minute']+' '+this.l10n('m') %></td>
                 </tr>
-            <% }); %>
+            <% }, this); %>
             </tbody>
         </table>
     </td>
